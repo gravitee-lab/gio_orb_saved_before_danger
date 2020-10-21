@@ -2,8 +2,8 @@ version: 2.1
 description: |
     The Circle CI Orb to use in all Gravitee Software Development Repos
 display:
-    home_url: https://github.com/gravitee-io/gravitee-circleci-orb/tree/0.0.1#README.md
-    source_url: https://github.com/gravitee-io/gravitee-circleci-orb/tree/0.0.1
+    home_url: https://github.com/gravitee-io/gravitee-circleci-orb/tree/1.0.0#README.md
+    source_url: https://github.com/gravitee-io/gravitee-circleci-orb/tree/1.0.0
 orbs:
     secrethub: secrethub/cli@1.0.0
 commands:
@@ -395,7 +395,7 @@ examples:
         usage:
             version: "2.1"
             orbs:
-                gravitee: gravitee-io/gravitee@0.0.1
+                gravitee: gravitee-io/gravitee@1.0.0
             workflows:
                 pull_requests:
                     jobs:
@@ -415,7 +415,7 @@ examples:
         usage:
             version: "2.1"
             orbs:
-                gravitee: orbinoid2/gravitee@0.0.1
+                gravitee: orbinoid2/gravitee@1.0.0
             workflows:
                 pr_bot:
                     jobs:
@@ -436,7 +436,7 @@ examples:
         usage:
             version: "2.1"
             orbs:
-                gravitee: gravitee-io/gravitee@0.0.1
+                gravitee: gravitee-io/gravitee@1.0.0
             workflows:
                 pull_requests:
                     jobs:

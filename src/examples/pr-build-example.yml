@@ -15,7 +15,7 @@ usage:
 
   orbs:
     # secrethub: secrethub/cli@1.0.0
-    gravitee: gravitee-io/gravitee@0.0.1
+    gravitee: gravitee-io/gravitee@1.0.0
 
   workflows:
     version: 2.1
@@ -23,14 +23,14 @@ usage:
       when:
         equal: [ pr_build, << pipeline.parameters.gio_action >> ]
       jobs:
-        # Job defined from the [gravitee-io/gravitee@0.0.1] Circle CI Orb
+        # Job defined from the [gravitee-io/gravitee@1.0.0] Circle CI Orb
         - gravitee/pr-build:
             context: cicd-orchestrator
     release:
       when:
         equal: [ release, << pipeline.parameters.gio_action >> ]
       jobs:
-        # Job defined from the [gravitee-io/gravitee@0.0.1] Circle CI Orb
+        # Job defined from the [gravitee-io/gravitee@1.0.0] Circle CI Orb
         - gravitee/release:
             context: cicd-orchestrator
             dry_run: << pipeline.parameters.dry_run >>

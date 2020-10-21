@@ -15,7 +15,6 @@ Using the Release Job in a  `.circleci/config.yml` is simple, and can be done as
 ```Yaml
 version: 2.1
 parameters:
-  # 'gio_action' will soon be renamed 'cicd_process'
   gio_action:
     type: enum
     enum: [product_release, lts_support_release, sts_support_release, dev_pr_review, support_pr_review, pull_requests_bot]
@@ -23,13 +22,12 @@ parameters:
     default: pull_requests_bot
   dry_run:
     type: boolean
-    # always run in dry run modeby default
+    # always run in dry run mode by default
     default: true
 
 orbs:
   # secrethub: secrethub/cli@1.0.0
-  gravitee: orbinoid2/gravitee@0.0.14
-  # gravitee: gravitee-io/gravitee@0.0.1
+  gravitee: gravitee-io/gravitee@1.0.0
 
 workflows:
   version: 2.1
@@ -40,7 +38,6 @@ workflows:
       # Job defined from the CICD Circle CI Orb , using a Machine executor.
       - gravitee/release:
           dry_run: << pipeline.parameters.dry_run >>
-          maven_version: 3.6.3
 ```
 
 The _parameters_ of the release Orb Job, are :
@@ -60,8 +57,8 @@ Circle CI Orb Registry user permissions model has a particularity.
 
 So,let's sum this up :
 
-* unless a Github.com User has `owner` role over an entire Github organization, he cannot publish semver releases of an `Orb`, like `0.0.1` for example
-* A user who is just a `member` of that organization, can neverthe less, publish versions of the form `${ORB_NAMESPACE}/${ORB_NAME}@dev:0.0.1`
+* unless a Github.com User has `owner` role over an entire Github organization, he cannot publish semver releases of an `Orb`, like `1.0.0` for example
+* A user who is just a `member` of that organization, can neverthe less, publish versions of the form `${ORB_NAMESPACE}/${ORB_NAME}@dev:1.0.0`
 * A user who is just a `member` of a Github organization, trying to release a `Circle Ci` `Orb`, will get the following error :
 
 ```bash
@@ -147,11 +144,11 @@ I'll explain nowa a funny issue, meaningful, which happened to be raised due to 
 
 Orbinoid works that way :
 * it picks up the orb version number to publish, from `package.json`
-* to publish orb `dev:0.0.1.0`, i therefore set to that version number, the `version` in `package.json`
-* and then I had this erro, when I ran `npm start -- -p`, to publish the `gravitee-io/gravitee@dev:0.0.1.0` orb  :
+* to publish orb `dev:1.0.0.0`, i therefore set to that version number, the `version` in `package.json`
+* and then I had this erro, when I ran `npm start -- -p`, to publish the `gravitee-io/gravitee@dev:1.0.0.0` orb  :
 ```bash
 $ npm run dev
-npm ERR! Invalid version: "dev:0.0.1.0"
+npm ERR! Invalid version: "dev:1.0.0.0"
 
 npm ERR! A complete log of this run can be found in:
 npm ERR!     /home/jibl/.npm/_logs/2020-10-20T12_10_09_900Z-debug.log
@@ -180,13 +177,13 @@ This fact is confirmed by the stdout of the Circle CI CLI :
 * which makes sense :it is made for testing, not stable
 
 <pre>
- === Publishing Circle CI Orb [gravitee-io/gravitee@dev:0.0.1-0] to remote Orb registry
-Orb `gravitee-io/gravitee@dev:0.0.1-0` was published.
+ === Publishing Circle CI Orb [gravitee-io/gravitee@dev:1.0.0-0] to remote Orb registry
+Orb `gravitee-io/gravitee@dev:1.0.0-0` was published.
 Please note that this is an open orb and is world-readable.
-Note that your dev label `dev:0.0.1-0` can be overwritten by anyone in your organization.
-Your dev orb will expire in 90 days unless a new version is published on the label `dev:0.0.1-0`.
-Successfully Published Circle CI Orb [gravitee-io/gravitee@dev:0.0.1-0] in remote Orb registry
-Visit Published Circle CI Orb 's Homepage at https://circleci.com/developer/orbs/orb/gravitee-io/gravitee [dev:0.0.1-0] in Orb registry
+Note that your dev label `dev:1.0.0-0` can be overwritten by anyone in your organization.
+Your dev orb will expire in 90 days unless a new version is published on the label `dev:1.0.0-0`.
+Successfully Published Circle CI Orb [gravitee-io/gravitee@dev:1.0.0-0] in remote Orb registry
+Visit Published Circle CI Orb 's Homepage at https://circleci.com/developer/orbs/orb/gravitee-io/gravitee [dev:1.0.0-0] in Orb registry
 </pre>
 
 Note that the published "dev" orb :
@@ -251,6 +248,9 @@ Also so mcuh easier to everyday manage, "without having to think about it, just 
 We welcome [issues](https://github.com/<organization>/<project-name>/issues) to and [pull requests](https://github.com/<organization>/<project-name>/pulls) against this repository!
 
 ### How to Publish
+
+_Here At [Gravitee.io](https://gravitee.io), we use a new utility to manage an Orb Lifecycle, called [the orbinoid](https://github.com/gravitee-io/gravitee-circleci-orbinoid). This Lifecycle includes publishing the Orb._
+
 * Create and push a branch with your new features.
 * When ready to publish a new production version, create a Pull Request from fore _feature branch_ to `master`.
 * The title of the pull request must contain a special semver tag: `[semver:<segement>]` where `<segment>` is replaced by one of the following values.
